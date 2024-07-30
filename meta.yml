@@ -1,0 +1,3 @@
+# this file will contain instructions/information to auto-generate 
+# opam and eventually dune build instructions as recommended by the coq coomunity wiki 
+# (as soon as I found out what is needed and how to specify it)

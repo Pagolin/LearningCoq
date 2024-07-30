@@ -1,0 +1,8 @@
+-Q code/helperLib lib
+-Q code/demos  demos 
+-arg -w -arg -notation-overridden
+
+
+demos/intro_patterns.v
+demos/searching_info.v
+helperLib/basics.v
