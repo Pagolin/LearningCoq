@@ -1,14 +1,52 @@
 From lib Require Import basics.
 (*Intropatterns - Syntax and Examples*)
 
+(*Here we will foloow along the syntax defintion of intro patterns in coq 
+  and give examples for their usage and effects. 
+
+  For the full documentation see:  https://coq.inria.fr/doc/V8.19.0/refman/proof-engine/tactics.html#intro-patterns
+  The intro-pattern syntax is defined as follows:
+
+  intropattern :: = 
+     *
+    |**
+    |simple_intropattern
+
+  simple_intropattern::=
+    simple_intropattern_closed%term0*
+  
+  simple_intropattern_closed::=
+    naming_intropattern
+    |_
+    |or_and_intropattern
+    |equality_intropattern
+  
+  naming_intropattern::=
+    ident
+    |?
+    |?ident
+
+  or_and_intropattern::=
+    [ intropattern**| ]
+    |( simple_intropattern*, )
+    |( simple_intropattern*& )
+
+  equality_intropattern::=
+    ->
+    |<-
+    |[= intropattern* ]
+  *)
+
+(*Now let's see some examples of each one.*)
+
 (*simple_intropattern*)
 
 Lemma star_for_dependent : forall (a b c : nat),
     a = b -> b = a.
 Proof.
     (*Introduces _dependent premisses_ i.e. everything that 
-      appears in the binder (forall ...) and the statement.
-      Hence neither c nor a = b, not nat are introduced *) 
+      appears in a binder (forall ..., exists ..., let ... ) and the following statements.
+      Hence neither c nor a = b, not nat are introduced. nat is an implicit assumption here*) 
     intros *.
 Abort.
 
