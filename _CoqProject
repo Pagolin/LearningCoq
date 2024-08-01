@@ -3,6 +3,5 @@
 -arg -w -arg -notation-overridden
 
 
-demos/intro_patterns.v
-demos/searching_info.v
-helperLib/basics.v
+code/demos/intro_patterns.v
+code/helperLib/basics.v
