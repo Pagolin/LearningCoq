@@ -1,25 +1,4 @@
-Definition helper1 {T : Type} (a:T): bool := false.
-
-Definition helper2 (n: nat) : Prop :=
-    n = 23. 
-
-Definition somethingElse : Prop := True.
-
-
-Inductive ExampleType : Type := 
-  | FirstConstructor (n: nat) (b : bool)
-  | SecondConstructor(n: nat) (b : bool)
-  .
-
-Definition as_num (e: ExampleType) : nat := 
-   match e with 
-   | FirstConstructor n _ => n
-   | SecondConstructor n _ => n
-   end.
-
-Notation "x ++ y" := (app x y)
-                     (right associativity, at level 60).
-
+From lib Require Import basics.
 (*Intropatterns - Syntax and Examples*)
 
 (*simple_intropattern*)
@@ -244,6 +223,15 @@ Abort.
 (* (e)destruct, (e)induction, (e)case and inversion use 
    [or_and_intropattern] ... means lists or tuples of intropatterns for conjunction and disjuntion
    
-    ... or constructors of inductive types, e.g. [destruct someBool] omiited in the docu*)
+    ... when the docu say's "destruct uses [or_and_intropattern]" this really means it uses it in the 
+    *introducing* part of the tactic call. 
+    E.g. in [destruct m as [m1 | m2]] we're talking about [as [m1 | m2]] because this is the introduction 
+    of new terms. *)
+
+Lemma destruct_ident : forall (n:nat), S n = n + 1.
+Proof. 
+    intros.
+    destruct n as [ | n'].
+Abort.
 
 (* many tactics have a buildtin [eqn:] which uses [naming_intropattern] i.e. ? | ident | ?prefix | _ *)
