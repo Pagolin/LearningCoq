@@ -4,4 +4,7 @@
 
 
 code/demos/intro_patterns.v
+code/demos/searching_info.v
+
 code/helperLib/basics.v
+code/helperLib/thingsToSearch.v

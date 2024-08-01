@@ -1,20 +1,22 @@
-From stdpp Require Import gmap base relations tactics.
-From iris Require Import prelude.
-
-(*ToDo. Replace examples*)
-From semantics.ts.stlc Require Import lang notation.
-From semantics.ts.stlc Require untyped types.
-
-
-(*In general:
-
-What is it?                                 -> About
-Where is it defined?                        -> Locate | Print Scope 
-How is it defined?                          -> Print 
-Where is it used and what can I do with it? -> Search
+Require Import String.
+From lib Require Import thingsToSearch. 
+(* 
+   Here we will have a look a vernacular commands, that help us navigate the code, and find informations 
+   about where and how things in our codebase are defined and used. 
+   The full documentation can be found at: 
 
 *)
 
+(*In general:
+
+Your Question:                              |   Command
+-----------------------------------------------------------------------
+What is it?                                 | About
+Where is it defined?                        | Locate | Print Scope 
+How is it defined?                          | Print 
+Where is it used and what can I do with it? | Search
+
+*)
 
 (*About **)
 (* displays 
@@ -23,7 +25,12 @@ Where is it used and what can I do with it? -> Search
     - type
     - implicit arguments and argument scopes.
     - no definitions or proofs**)
+
+About string.
 About expr.
+About intros.
+About thingsToSearch.
+
 
 (*Locate *)
 (*tells you where to find the definition for a qualified identifier*)
@@ -179,3 +186,4 @@ Search expr subst' outside lang. (*Again we can search inside and outside of spe
 
 Search expr subst' - is_val. (*Exclude the term "is_val" from the search results*)
 Search expr subst' - "big". (*Exclude anything named ".*big.*" (containing the substring big) from the search results*)
+*)
