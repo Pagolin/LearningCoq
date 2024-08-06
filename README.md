@@ -8,7 +8,7 @@ This is the repository for saving our learning insights from the `BI Coq'ers Uni
 In this repo we'll keep insights, examples and ressource for learning Coq. 
 In particular it contains things we presented during the weekly Coq meeting. 
 To make it easier for us to a) build examples for tactics/strategies an problems and b) step through the examples afterwards
-we'll have a little library with helper functions, datatype mocks etc. to build examples that make the examples in here standalone as for as possible i.e. please don't add (unneccesary dependencies)
+we'll have a little library with helper functions, datatype mocks etc. to build examples that make the examples in here standalone as for as possible i.e. please don't add (unneccesary) dependencies.
 
 ## Open topics
 
@@ -18,3 +18,12 @@ we'll have a little library with helper functions, datatype mocks etc. to build 
 | Modules          | [Sebastian](@sebastian.ertel)                         |
 | Hoare logic      | [Sebastian](@sebastian.ertel)/[Lisza](@lisza.zeidler) |
 | Separation logic | [Sebastian](@sebastian.ertel)/[Lisza](@lisza.zeidler) |
+| "Coq Ops" (nix/dune/opam ... ?) | ??? [Michael](@michael.raiza) |
+
+## Contributing 
+
+Code demos go to the `code/` folder. Make a new file for your demo in `code/demos` and if needed add
+examples to the `helperLib` folder as a new file or directly to `basics.v`. If you add new files, you also have to add them to the `_CoqProject` file, so they will be build by either the nix build or the usual `> make` call.
+
+If you present theoretical background and have slides or markdown or other artifacts, just create a new folder (like IrisRessources) and put it there. 
+
