@@ -160,11 +160,11 @@ BUT this relies on two assumptions
   b) the type of $\alpha$ remains opaque to the clients
 
 Syntactic well-typedness does not enforce those assumptions. To show that, __MyLang__ is extended by a 
-__gremlin__ expression. The expression is of type unit and has two base reduction rules (meaning derivation is non-deterministic). Either it does nothing or it changes the value at some location on the heap storing an integer to $0$. So it may or may not change the counter that should be private, while all syntactic typing is still valid. 
+`gremlin` expression. The expression is of type unit and has two base reduction rules (meaning derivation is non-deterministic). Either it does nothing or it changes the value at some location on the heap storing an integer to $0$. So it may or may not change the counter that should be private, while all syntactic typing is still valid. 
 
 Question: How would it know, if the location in fact stores an integer?
 
-In fact __gremlin__ is an overly simplified example for Reflection ... so it could know the type of a field.
+In fact `gremlin` is an overly simplified example for Reflection ... so it could know the type of a field.
 
 __Problem 2: Reasoning about unsafe code in safe encapsulation__
 
@@ -501,7 +501,7 @@ To use this in a proof, it's formalized as monotonicity rules (LOGREL-VAL and LO
 ![](./graphics/logrel_rules.jpg)
 
 
-### Starting to prove semantic typing 
+### Proving Typing Rules
 
 __Variables and Ground Types__
 
@@ -562,8 +562,170 @@ Since in each of those implications the interpretation of typing contexts is per
 
 __Product, Sum and Function Types__
 
-The proofs for Product and Sum types are not explicitely given, but in principle they show that semantic typing follows the same structural rules as syntactic typing for those types using the same approach as described before. 
+The proofs for Product and Sum types are not explicitely given, but in principle they show that semantic typing follows the same structural rules (S-APP and S-REC) as syntactic typing for those types using the same approach as described before. 
+
+
 
 There's two forms of function application, that are explicitely considered in the section, namely normal application (rule S-APP) and application of recursive functions (rule S-REC). 
 The goal is still to show that the same typing rules apply for semantic and syntactic typing. 
 
+![](./graphics/sapp_srec.jpg)
+
+The proof again follows the same steps as before, proving the auxilliary form for closed terms and extending the
+proof via persistence. The according proof steps (i.e. derivation trees are given in section 6.6.)
+
+__Universal and Existential Types__ 
+
+Universal and existential types have type parameters. Recall that, to capture their semantic typing, without running into potentially endless type-relacement-loops, we introduced the _semantic environment_ $\delta$, mapping type variables directly to values.  
+
+So as seen below the semantic typing rules for quantified types where "type A in an environment where the quantified parameter has a valid mapping"
+
+![sem. typing rules for type variables](./graphics/typing_quantified.jpg)
+
+The typing rules we want to prove are: 
+![](./graphics/stapp_stlam.jpg)
+
+Hence the first part of proving the typing rules is showing that the ususal substituion of type paramaters by concrete types is equivalent to the notion of adding a mapping from the type variabel to a concrete type interpretation to the  _semantic environment_ $\delta$, i.e. $[[A[B/\alpha]]]_\delta = [[A]]_{\delta, \alpha\mapsto[[B]]_\delta}$. The proof is not part of skript and only described as 'by mutual induction'
+
+This result can be used to rewrite the prove for the type application rule . The rest of the proof follows the same principle as before (prove for closed expressions, extend by threading the "all valid context interpretations" part through again $[[\Gamma]]^c_\delta(\gamma)$).  
+
+__Recursive Types__
+ ToDo
+
+__Reference Types__
+
+Valid value interpretations of a reference type $\mathbf{ref}A$ where defined as locations, pointing to some value that might change but is guaranteed to be of type $A$.
+The last part is expressed by an invariant in the relation: 
+$[[ref\ A]]_{\delta} := \lambda v. \exists(l:Loc). (v=l)* \boxed{\exists w.l \mapsto w *[[A]]_{delta}(w)}^{N_l}$
+
+Handling invariants comes requires some concepts, other types don't because they are logical concept on top of the actual types in the laguage we reason about.  We've allready seen the rules for allocating (INV-ALLOC), copying (INV-PERSIST followed by $\square$-DUP) and opening (INV-OPEN, INV-OPEN-WP) invariants when we introduced [Iris basics](#language-parameterization-and-basics-of-iris).
+
+__Invariant Allocation__ means, the ownership of a property e.g. a variable in memory is given up to create an invariant i.e. a piece of share(able/d) state. This can be done at any point in a program.
+
+__Invariant Duplication__ as we can see from the rules, invariants are required to be persistent and hence can be copied and shared among states
+
+__Invariant Access__ to access the properties (e.g. memory locations) in the invariant it needs to be opened. This can only be done for atomic steps, and it is only valid if before closing it again the conditions the invariant places on the properties are fulfiled again. Like a logical Mutex, but controlling previously defined conditions on giving it back.
+
+__Invariant Namespaces $\mathcal{N}$ and Masks $\mathcal{E}$__ are used to encure that invariants cannot be opened twice. Each invariant is annotated wih a namespace ($N_l$ in the value relation above.). When we reason about open invariants, the weakest precondition is annotated with an invariant mask ($wp_\mathcal{E}$ in the INV-OPEN-WP rule below. This mask tracks available invariants. So in the begining this set contains all invariants and by opening an invaraint, it's Namespace is removed from the mask. It's a namespace, and not just a name, because invariants (and the namespaces tracking them) can be nested and we don't want reopening of nested invariants. So  $\mathcal{N}^\uparrow$ is the set of all invariants with $\mathcal{N}$ as a prefix.
+
+
+The INV-OPEN-WP rule below can roughly be read as follows:
+
+1. $e$ is an atomic expression
+2. the set of invariants in the namespace $  \mathcal{N}^\uparrow$ is in the mask of available/openable invariants $\mathcal{E}$
+*---------------------------------------------------*
+1. owning (a copy of) the invariant $P$ and 
+2. opening it, such that the execution of e yields v and fulfils some post condition $\Phi$ 
+implies that 
+
+under the same weakest precondition with $\mathcal{E}$
+executing $e$ satisfies $\Phi$
+
+![](./graphics/inv_open.jpg)
+
+
+The later modalities in the rule $\triangleright$ are "technically requried" to allow _impredicativity_ i.e. allowing any Iris proposition to become an invariant. 
+
+The rule for allocating invariants is now way easeir to read
+![](./graphics/inv_alloc.jpg)
+
+Basically if owning P and turning it into an invariant makes the execution of $e$ under $wp_{\mathcal{E}}$ satisfy $\Phi$ implies that $wp_{\mathcal{E}}\ e \{\Phi\}$ ... notice that after allocating the invariant $\boxed{P}^\mathcal{N}$ is part of $\mathcal{E}$.
+
+Having those rules up the sleeve, the paper proceeds to expplain the proofs for typing rules of reference allocation (S-ALLOC), loading (S-LOAD) and storing (S-STORE) values. 
+![](./graphics/ref_rules.jpg)
+
+The proofs proceed in the same steps as before, the proof trees and aome notes on the rules applied are described in the paper.
+
+
+#### The _Fundamental Theorem_ and _Adequacy_
+
+The __Fundamental Theorem__ claims that syntactic typing implies semantic typing. i.e.
+
+_Every syntactically well typed term is semantically well typed or if $\Gamma\vdash e:A$ then $\Gamma\models e:A$_
+
+By proving that for each expression, the semantic typing rules have exactly the same structure as their syntactic counterpart we allready established this theorem in the last paragraphs (modulo an inductive proof over expressions). 
+
+The __Adequacy Theorem__ states that semantically well-typedness implies safety of an expression. The proof basically argues that
+1. semantically well-typeded means being in the value relation of the respective type.
+2. and this means evaluating to a value of that type of that type under some weakest precondition.
+3. finally we allready established that 
+"evaluating to a value of that type of that type under some weakest precondition." is adequat to imply safety.
+
+
+From the __Fundamental Theorem__  and the __Adequacy Theorem__ we get
+
+__Semantic Type Soundness__ i.e. 
+_Every closed syntactically well-typed expression $e$ is safe. Formally, if $\empty\vdash e:A$, then $safe(e)$._
+
+
+## Safe Encapsulation of Unsafe Features
+
+- in the last section we used the _logical approach_ to establish the _well-typed => safe_ type soundness theorem for semantic typing
+
+- if you thought, _well ... that's a lot of effort to get just the same result as with good old syntactic typing_ you're right
+
+- the point where semantic typing becomes interesting is ... right now, because now we start to establish semantic well-typedness where syntactic typing wass just to weak and extend the expressiveness of typing and it's implications for safety
+
+- we get back to the `gremlin` expression, an expression that would randomly update a memory location to `0`, keeping syntactic typing uneffected but destroying safe encapsulation.
+
+- now, with the new Iris-based semantic typing, `gremlin` can only be properly typed, if it owns the location it updates. by that requriement, we can exclude gremlin and the actual owner of the randomly chosen memory location can interfere i.e. there is no more "well-typed but unsafe" gremlin
+
+- furthermore, remember the abstract data type `symbol` we had as example for the limitations of syntactic typing for safe encapsulation
+
+  $$concrete\_symbol:= let\ c\ = ref\ 0\ in \\
+               pack\langle Z, (\lambda().\ FAA(c, 1), \lambda s.\ assert(s <\ !c)) \rangle  
+             $$
+  This implementation is safe, although `assert false` is undefined iff we can guarantee that no-other access than the atomic FAA accesses the counter `c`, because then we can guarantee that any existing symbol mis in fact smaller than the current counter.
+
+-  as the paper explains, we want to establish, that at any point in time anything of type `symbol` is smaller than the current counter in other words, symbol is well-typed and therefore safe
+ $$\models symbol:symbol\_type$$
+
+- so we need a typing relation for $symbol\_type$ or, in semantic-typing parlance, we need to define what it means for a value $v$ to behave like a valid instance of $symbol\_type$
+
+- first try : $\lambda v. \exists (n:\mathbb{N})(v<n)\ * \ c\mapsto n$
+- the problem is, that this function is not persisten, because it requires ownership of the location c, but predicates for typing relations need to be persistent ($\Psi: Val \rightarrow iProp_{\square}$)
+
+=> introducing __ghost states__
+
+### User-defined Ghost States
+
+- the concept isn't Iris-exclusive
+- it's named ghost variables, permissions , protocols or history/prophecy assertions in other context and generally used as an auxillary state to track ownership (i.e. something that's only part of the proof, not a physical part/memory location of program we reason about)
+
+- Iris' Ghost States are _user-defined_ because one can establish a kind of ghost state for any ressource that shall be tracked in a proof
+
+- to establish a new kind of ghost state, one needs to define a _resource algebra_ describing how to compose and share the new ghost state and how to determine wether a state is valid. however that's not described in the example at hand.
+
+- for the ghost state representing the counter i.e. _ghost counters_, the following rules are defined: 
+![](./graphics/counter_rules.jpg)
+
+- the $\hookrightarrow$ symbols are connectives, just like points-to $c \mapsto v$ for pyhsical memory locations
+- $\hookrightarrow_=$ is ephemeral, it asserts that at this point in time the ghost state points to some value $n$
+- $\hookrightarrow_>$ is persistent, it asserts that at any point in time the ghost state points to some value larger than $m$
+
+- the rules assert that 
+  - one can allways greate a new ghost counter that points to 0 (CNT-INIT), 
+  - one can inrease the ghost counter and yield two new predicates about the counter state (CNT-INC),
+  - the $\hookrightarrow_>$ predicate is persisten i.e. can be shared (CNT-PERSIST)
+  - iff we have ownership of both predicates for one ghost counter we can conclude $ m < n$ (CNT-LT) and
+  - ???
+
+
+- using ghost counters two predicates are established for valid symbols:
+  $$I_{\gamma} := \lambda l. \boxed{\exists n:\mathbb{N}. l\mapsto n * \gamma \hookrightarrow_= n}^{N_{symbol}} \\
+  \Psi_\gamma := \lambda v. v \in \mathbb{N}\ *\ \gamma \hookrightarrow_> v $$
+
+
+Before we go on the __Update Modality $\Rrightarrow$__ needs some explanation.
+The problem with ghost states is, that we still need to connect them to the reasoning about physical program states again. Very basically the update modality asserts something holds after _frame preserving updates_ i.e. a potential update in the physical memory (in this case also restricted by the current invarian mask $\mathcal{E}$) that does not interfere with any other part in memory. 
+
+The paper proceeds to explain, the rules allowing to integrate ghost states into pre and post-conditions of "normal" weakest-precondition reasoning using the update-modality
+
+For example we can establish the following, transformed rule for increasing ghost counters to use it together with expression that might use or modify the actual counter:
+
+![](./graphics/using_ghost_state.jpg)
+
+ToDo: Get explanation for Update modality from POPL tutorial, because the explanation in the paper is not very accessible 
+
+
+ToDo: Can we go over the proof tree on page 47 together? What exactly are we proving here?
