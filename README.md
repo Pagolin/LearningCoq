@@ -22,6 +22,9 @@ we'll have a little library with helper functions, datatype mocks etc. to build 
 | Intro into `stdpp`| |
 | Equality of `bool` and `Option` (Coercions) | |
 | Extraction to OCaml, Haskell | |
+| Intro into mathcomp | |
+| SSReflect | |
+| Equations | |
 
 ## Contributing 
 
