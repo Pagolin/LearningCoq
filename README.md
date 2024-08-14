@@ -21,6 +21,7 @@ we'll have a little library with helper functions, datatype mocks etc. to build 
 | "Coq Ops" (nix/dune/opam ... ?) | ??? [Michael](@michael.raiza) |
 | Intro into `stdpp`| |
 | Equality of `bool` and `Option` (Coercions) | |
+| Extraction to OCaml, Haskell | |
 
 ## Contributing 
 
