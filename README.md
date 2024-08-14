@@ -19,6 +19,8 @@ we'll have a little library with helper functions, datatype mocks etc. to build 
 | Hoare logic      | [Sebastian](@sebastian.ertel)/[Lisza](@lisza.zeidler) |
 | Separation logic | [Sebastian](@sebastian.ertel)/[Lisza](@lisza.zeidler) |
 | "Coq Ops" (nix/dune/opam ... ?) | ??? [Michael](@michael.raiza) |
+| Intro into `stdpp`| |
+| Equality of `bool` and `Option` (Coercions) | |
 
 ## Contributing 
 
