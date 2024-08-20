@@ -14,17 +14,30 @@ we'll have a little library with helper functions, datatype mocks etc. to build 
 
 | Topic            | Presenter                                             |
 |------------------|-------------------------------------------------------|
+| `apply`, `exact` tactic   |                                              |
+| `destruct` tactic |                                                      |
+| `reflexivity` tactic   |                                                 |
+| `simpl` tactic | |
+| `auto` tactic and hint databases | |
+| Type Classes ||
+| Modules          |                          |
 | Monads           | [Sebastian](@sebastian.ertel)                         |
-| Modules          | [Sebastian](@sebastian.ertel)                         |
 | Hoare logic      | [Sebastian](@sebastian.ertel)/[Lisza](@lisza.zeidler) |
 | Separation logic | [Sebastian](@sebastian.ertel)/[Lisza](@lisza.zeidler) |
-| "Coq Ops" (nix/dune/opam ... ?) | ??? [Michael](@michael.raiza) |
 | Intro into `stdpp`| |
 | Equality of `bool` and `Option` (Coercions) | |
 | Extraction to OCaml, Haskell | |
 | Intro into mathcomp | |
 | SSReflect | |
 | Equations | |
+
+## Presented topics
+
+| Topic            | Presenter                                             |
+|------------------|-------------------------------------------------------|
+| Induction        | [Sebastian](@sebastian.ertel)                         |
+| "Coq Ops" (nix/dune/opam) |  [Michael](@michael.raiza)                   |
+
 
 ## Contributing 
 
