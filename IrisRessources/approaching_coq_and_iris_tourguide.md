@@ -10,6 +10,11 @@ Volume 1 of the series will teach you all the basics to get started with Coq. In
 Finally if you need more explanation or are more an audio-visual learner, there is a lecture series to the book by Benjamin Pierce (one of the authors), available on [youtube](https://www.youtube.com/watch?v=KKrD4JcfW90&list=PLGCr8P_YncjUT7gXUVJWSoefQ40gTOz89) or directly on the website of the [Summer School on Logic, Languages, Compilation, and Verification](https://www.cs.uoregon.edu/research/summerschool/summer12/curriculum.html). 
 
 
+# Learning Basics of Formal Reasoning about Programms 
+
+Each winter semester we (as in Dr. Sebastian Ertel from BI) teach the course "Foundations of Certified Programming Language and Compiler Design". It's main focus is to introduce formal reasoning and type theory as means of program and compiler verification. In the practical part and the excercises also functional programming basics in haskell and essential tactics in Coq are introduced and applied to the theoretical concepts tought in the course. You can find the material on the [course website](https://www.barkhauseninstitut.org/research/teaching/translate-to-deutsch-foundations-of-certified-programming-language-and-compiler-design). You'll need a login to access slides and exercises. In case you didn't take the course just as Sebastian direktly. 
+
+
 # Learing Iris
 
 There is a lot to learn and know about Iris and it's theoretical foundationand there are different ways to approach it, depending on your background and usecase. If you're not familiar with the concept of semantic typing and the general idea behind Iris, I'd strongly recommend to start with Derek Dreyers Milner Award Lecture [The Type Soundness Theorem That You Really Want to Prove ](https://www.youtube.com/watch?v=8Xyk_dGcAwk).
