@@ -33,10 +33,12 @@ we'll have a little library with helper functions, datatype mocks etc. to build 
 
 ## Presented topics
 
-| Topic            | Presenter                                             |
-|------------------|-------------------------------------------------------|
-| Induction        | [Sebastian](@sebastian.ertel)                         |
-| "Coq Ops" (nix/dune/opam) |  [Michael](@michael.raiza)                   |
+| Topic            | Presenter                                             | Artifacts |
+|------------------|-------------------------------------------------------|-----------|
+| Induction        | [Sebastian](@sebastian.ertel)                         | ???       |
+| "Coq Ops" (nix/dune/opam) |  [Michael](@michael.raiza)                   | ???       |
+| Vernacular Commands for Searching | [Lisza](@lisza.zeidler)                       | [code](./code/demos/searching_info.v) |
+| Intro-patterns  | [Lisza](@lisza.zeidler)                       | [code](./code/demos/intro_patterns.v)  
 
 
 ## Contributing 
