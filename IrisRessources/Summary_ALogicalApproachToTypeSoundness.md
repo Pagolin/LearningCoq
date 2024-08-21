@@ -637,7 +637,7 @@ Having those rules up the sleeve, the paper proceeds to expplain the proofs for 
 The proofs proceed in the same steps as before, the proof trees and aome notes on the rules applied are described in the paper.
 
 
-#### The _Fundamental Theorem_ and _Adequacy_
+#### The Fundamental Theorem and Adequacy
 
 The __Fundamental Theorem__ claims that syntactic typing implies semantic typing. i.e.
 
@@ -725,7 +725,87 @@ For example we can establish the following, transformed rule for increasing ghos
 
 ![](./graphics/using_ghost_state.jpg)
 
-ToDo: Get explanation for Update modality from POPL tutorial, because the explanation in the paper is not very accessible 
+Explanation from POPL tutorial (rephrased) and "Iris from the ground up"
+  - ghost variables are not a part of the actual program i.e. they are not changed, just because the program does something to the underlying physical resource 
+  - how can they be update ... using the update rule and _frame preserving updates_
+  - _frame preserving_ means, one can make an update to a fraction of a ghost variable iff this update does not interfere with the assumptions ony other thread possessing a fraction of the ghost variable makes
+  - more formally:
+  Supposed there is a resource `a` that can be split into multiple fragments `a1,a2, ...`
+  The resource algebra for any kind of ressource includes a way to recompose those parts to a valid resource again
+  Now a frame preserving update `a1`$\rightsquigarrow$ `b` preserves that composition i.e. if you could compose `a1` and `a2` to a valid resource, this must also be possible for `b` and `a2`
+- Now the update modality allows to reason about those ghost variable updates i.e. 
+  $\Rrightarrow P$ holds for a ressource `a1` iff we can update it to some `b` (`a1`$\rightsquigarrow$ `b`) 
+  that would still satisfy $P$
+
+ToDo: I got lost along the argumentation on update modalities. Can we discuss that (p 47 - 49) if needed?
 
 
-ToDo: Can we go over the proof tree on page 47 together? What exactly are we proving here?
+Back to proving that 
+  a) `symbol` is semantically well-typed i.e. $\models symbol : symbol\_type$ and
+  b) `gremlin` is semantically ill-typed
+
+... and hence to showing that semantic typing let's us reason about safe encapsulation.
+
+a) $\models$ was defined as being in the value relation of the type in question so we have to show
+  $[[symbol\_type]]_\delta^e(symbol)$
+
+The proof tree largely consists of unfolding definitions of the symbol type and of "being a member of expression/value rlations of a type". 
+
+## Representation Independence
+## Additional Related Work
+
+
+## Conclusion
+
+discusses briefly 
+1. that "the logical approach" (semantic typing + separation logic) is scalable (remember that was a limitation in previouse step indexed approaches)
+2. how to extend it/the use of Iris to different languages/type systems/program properties
+3. how the approach has allready been used in research 
+
+and give some links to get started (which you can also find in [this repo](./approaching_coq_and_iris_tourguide.md))
+
+
+### 2. Extending/Implementing Iris for different Languages/Type Systems/ Properties
+
+To apply "the logical approach" with a new language (like it has been done for HeapLang, MyLang ... ) these are the principle steps: 
+
+1. Instantiate Iris with the language:
+  - mostly by defining syntax and semantic 
+  - instead of defining them from scratch, existing languages (HeapLang) 
+    can be modified (e.g. done [here](https://gitlab.mpi-sws.org/iris/actris) to include session types in HeapLang)
+
+2. Define the reasoning principles for the language
+ - basically one has to define what the logical connectives for ownership (e.g. points-to) and 
+   for program reasoning (e.g. wp) mean in this language
+ - if the language can be described with the common small-step operational semantics in Iris, 
+   also the generic versions of the connectives can be used
+ - You want to implemement your own reasoning priciples e.g. to
+    - to reason about different memory models (e..g block/offset based, RustBelt did this) or different  (physical) ressouces like program counters or any low level machine specific capabilities  
+    - describe operational semantics differently e.g. big-step
+    - establish different properties e.g. security  
+    - describe non-local control e.g. effect handlers
+  - the paper cites examples of each (probably with code artifacts)
+ - to do so, Iris includes a base logic (including separating conjunction, magic wand, modalitites)
+   to build a new logic
+ - finally there's examples for a _middle ground_ that just modifies existing reasoning
+ 
+ 3. Define ghost theories
+ 
+ - the second point just handled the reasoning about the actual program i.e. 
+   modifications of physical ressources and exiting program values
+ - to describe and trace properties, that are not part of the actual language one needs ghost
+   theories
+ - there were three examples of _ghost theories_ in the paper a) the usage of invariants b) the _counter_ ghost states to model the symbol type and c) the specification ressources to model representation independence
+ - to define a custom ghost state theorie, one has to implement a Ressource Algebra for it (i.e. how to create, combine, share and validate those ressources) as explained in Part 2. of the [Iris Tuturial POPL 2021](https://www.youtube.com/watch?v=LjXaffBpMag)
+
+
+### 3. Examples of 'the logical approach' in the (scientific) wild
+
+The section of the paper briefly mentions research based on Iris including 
+- proving type soundness for (i) a _significant_ Rust subset (ii) an extension of Scalas core type system (iii) session types (iv) refinement types for C
+- proving _robust safety_, representation independence, program refinement and _variouse security properties_  
+
+It also very briefly hints to the difference in reasoning about unrestricted type systems (such as MyLang, where value interpretations for any type are persistent) an substructural type systems (such as the ownership system in Rust, where the interpretation of 'non-copyable' types might change during evaluation of a program)
+
+
+ToDo: Checkout Memory Model in RustBelt
