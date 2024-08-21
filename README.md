@@ -19,7 +19,7 @@ we'll have a little library with helper functions, datatype mocks etc. to build 
 | `reflexivity` tactic   |                                                 |
 | `simpl` tactic | |
 | `auto` tactic and hint databases | |
-| Type Classes ||
+| Type Classes |[Max](@max.kurze)|
 | Modules          |                          |
 | Monads           | [Sebastian](@sebastian.ertel)                         |
 | Hoare logic      | [Sebastian](@sebastian.ertel)/[Lisza](@lisza.zeidler) |
