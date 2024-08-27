@@ -10,6 +10,14 @@ In particular it contains things we presented during the weekly Coq meeting.
 To make it easier for us to a) build examples for tactics/strategies an problems and b) step through the examples afterwards
 we'll have a little library with helper functions, datatype mocks etc. to build examples that make the examples in here standalone as for as possible i.e. please don't add (unneccesary) dependencies.
 
+
+## Schedule
+
+| Date       | Topic                     | Presenter                                             |
+|------------|---------------------------|-------------------------------------------------------|
+| 18.09.2024 | SSReflect                 | [Sebastian](@sebastian.ertel)                         |
+| 02.10.2024 | Proof General             | Hendrik (Kernkonzept)                                 |
+
 ## Open topics
 
 | Topic            | Presenter                                             |
@@ -30,6 +38,10 @@ we'll have a little library with helper functions, datatype mocks etc. to build 
 | Intro into mathcomp | |
 | SSReflect | |
 | Equations | |
+| Proof General | |
+| Partial functions | |
+| Coq CI @ Kernkonzept | |
+| Nix-based Coq CI | |
 
 ## Presented topics
 
