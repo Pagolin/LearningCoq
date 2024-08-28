@@ -15,20 +15,21 @@ we'll have a little library with helper functions, datatype mocks etc. to build 
 
 | Date       | Topic                     | Presenter                                             |
 |------------|---------------------------|-------------------------------------------------------|
+| 04.09.2024 | `apply` and `exact`       | [Lisza](@lisza.zeidler) |
+| 11.09.2024 | `destruct`               | [Garvit](@garvit.chhabra)  |
 | 18.09.2024 | SSReflect                 | [Sebastian](@sebastian.ertel)                         |
+| 25.09.2024 | Modules | [Max](@max.kurze) |
 | 02.10.2024 | Proof General             | Hendrik (Kernkonzept)                                 |
+
 
 ## Open topics
 
-| Topic            | Presenter                                             |
-|------------------|-------------------------------------------------------|
-| `apply`, `exact` tactic   |                                              |
-| `destruct` tactic |                                                      |
-| `reflexivity` tactic   |                                                 |
+| Topic                            | Presenter                                              |
+|----------------------------------|-------------------------------------------------------|
+| `reflexivity` tactic                             |                                                                                                    |
 | `simpl` tactic | |
 | `auto` tactic and hint databases | |
 | Type Classes |[Max](@max.kurze)|
-| Modules          |                          |
 | Monads           | [Sebastian](@sebastian.ertel)                         |
 | Hoare logic      | [Sebastian](@sebastian.ertel)/[Lisza](@lisza.zeidler) |
 | Separation logic | [Sebastian](@sebastian.ertel)/[Lisza](@lisza.zeidler) |
@@ -36,9 +37,7 @@ we'll have a little library with helper functions, datatype mocks etc. to build 
 | Equality of `bool` and `Option` (Coercions) | |
 | Extraction to OCaml, Haskell | |
 | Intro into mathcomp | |
-| SSReflect | |
 | Equations | |
-| Proof General | |
 | Partial functions | |
 | Coq CI @ Kernkonzept | |
 | Nix-based Coq CI | |
