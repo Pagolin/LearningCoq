@@ -12,6 +12,7 @@
         alias spacemacs="HOME=$(pwd) emacs"
       '';
       buildInputs = [
+       # (with pkgs.coqPackages_8_18; [coq mathcomp])
         pkgs.coqPackages_8_18.coq
       ];
     };
