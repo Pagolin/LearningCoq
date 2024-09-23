@@ -46,7 +46,7 @@ we'll have a little library with helper functions, datatype mocks etc. to build 
 | Topic                             | Presenter                     | Artifacts                             |
 |-----------------------------------|-------------------------------|---------------------------------------|
 | Induction                         | [Sebastian](@sebastian.ertel) | issue #2+                             |
-| "Coq Ops" (nix/dune/opam)         | [Michael](@michael.raitza)    | issue #8+                             |
+| "Coq Ops" (nix/dune/opam)         | [Michael](@michael.raitza)    | [tutorial](./tutorials/Nix.md), issue #8+ |
 | Vernacular Commands for Searching | [Lisza](@lisza.zeidler)       | [code](./code/demos/searching_info.v) |
 | Intro-patterns                    | [Lisza](@lisza.zeidler)       | [code](./code/demos/intro_patterns.v) |
 | SSReflect Basics                  | [Sebastian](@sebastian.ertel) | [code](./code/emos/ssreflect_tour.v)  |
