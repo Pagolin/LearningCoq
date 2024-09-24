@@ -10,6 +10,23 @@ In particular it contains things we presented during the weekly Coq meeting.
 To make it easier for us to a) build examples for tactics/strategies an problems and b) step through the examples afterwards
 we'll have a little library with helper functions, datatype mocks etc. to build examples that make the examples in here standalone as for as possible i.e. please don't add (unneccesary) dependencies.
 
+## Flake Templates
+
+This repository also hosts flake templates to get your Coq project quickly up and running.
+To apply a template to your project, call `nix flake init --template <learning>#<template>`, where `<learning>` can be a URL to this repository and `<template>` is the name of the templates.
+For example, to list all available templates and apply one to your project, you can do the following:
+
+```
+nix flake show git+ssh://git@gitlab.barkhauseninstitut.org/versa/learning.git
+...
+└───templates
+    ├───coq: template: Coq development environment and package framework
+    └───default: template: Coq development environment and package framework
+
+nix flake init --template git+ssh://git@gitlab.barkhauseninstitut.org/versa/learning.git#coq
+```
+
+To use the default template, you can leave out `#<template>` all together.
 
 ## Schedule
 
@@ -46,7 +63,7 @@ we'll have a little library with helper functions, datatype mocks etc. to build 
 | Topic                             | Presenter                     | Artifacts                             |
 |-----------------------------------|-------------------------------|---------------------------------------|
 | Induction                         | [Sebastian](@sebastian.ertel) | issue #2+                             |
-| "Coq Ops" (nix/dune/opam)         | [Michael](@michael.raitza)    | [tutorial](./tutorials/Nix.md), issue #8+ |
+| "Coq Ops" (nix/dune/opam)         | [Michael](@michael.raitza)    | [tutorial](./tutorials/Nix.md)        |
 | Vernacular Commands for Searching | [Lisza](@lisza.zeidler)       | [code](./code/demos/searching_info.v) |
 | Intro-patterns                    | [Lisza](@lisza.zeidler)       | [code](./code/demos/intro_patterns.v) |
 | SSReflect Basics                  | [Sebastian](@sebastian.ertel) | [code](./code/emos/ssreflect_tour.v)  |
