@@ -57,6 +57,11 @@ Check Z.three.
 Check four.
 Fail Check Y.two.
 
+(* Importing a single nested identifier *)
+Import X.Y (one).
+Check one.
+
+Fail Import X (Y).                   (* Should be Import X.Y. *)
 
 (*
 A module signature
@@ -76,7 +81,7 @@ Module Type Module_sig_b.
   Axiom b_exists : exists x : b_type, True.
 End Module_sig_b.
 
-(* A modul implementing this signature *)
+(* A module implementing this signature *)
 Module Implementing_sig <: Module_sig_a <: Module_sig_b.
 
   (* cannot end module without providing 'some_type' *)
@@ -112,13 +117,16 @@ Module Functor (arg1 : Module_sig_a) (Import arg2 : Module_sig_b).
   Check a_type.
 
   (* definitions and lemmas in this module
-  can depend on the given modul argument *)
+  can depend on the given module argument *)
   Definition some_f : a_type -> nat := fun x => 5.
 
   Definition ab_type : Type := a_type * b_type.
 End Functor.
 
-(* Supplying a functor with a modul argument
-returns a modul *)
+(* Supplying a functor with a module argument
+returns a module *)
 Module Functor_Instance := Functor Implementing_sig Implementing_sig.
 Compute Functor_Instance.ab_type.
+
+Module Import Functor_Instance2 := Functor Implementing_sig Implementing_sig.
+Compute ab_type.
