@@ -66,7 +66,8 @@ To use the default template, you can leave out `#<template>` all together.
 | "Coq Ops" (nix/dune/opam)         | [Michael](@michael.raitza)    | [tutorial](./tutorials/Nix.md)        |
 | Vernacular Commands for Searching | [Lisza](@lisza.zeidler)       | [code](./code/demos/searching_info.v) |
 | Intro-patterns                    | [Lisza](@lisza.zeidler)       | [code](./code/demos/intro_patterns.v) |
-| SSReflect Basics                  | [Sebastian](@sebastian.ertel) | [code](./code/emos/ssreflect_tour.v)  |
+| SSReflect Basics                  | [Sebastian](@sebastian.ertel) | [code](./code/demos/ssreflect_tour.v) |
+| Proof General intro               | [Hendrik](@hendriktews)       | [code](./code/demos/PG-intro)         |
 
 ## Contributing
 
