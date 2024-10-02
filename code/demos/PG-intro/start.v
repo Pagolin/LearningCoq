@@ -98,6 +98,7 @@ Section Lists0.
           or increase proof-splash-time to 30
      12 - more screen space
           hide additional subgoals: (customize coq-hide-additional-subgoals to t)
+          menu Coq->Settings->Hide Additional Subgoals
      13 - keep orientation with prooftree
      14 - use Coq->OTHER QUERIES->Show ith Goal (C-c C-a C-s)
      15 - show how to move goals to separate frame
