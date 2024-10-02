@@ -30,18 +30,17 @@ To use the default template, you can leave out `#<template>` all together.
 
 ## Schedule
 
-| Date       | Topic               | Presenter                     |
-|------------|---------------------|-------------------------------|
-| 04.09.2024 | `apply` and `exact` | [Lisza](@lisza.zeidler)       |
-| 11.09.2024 | `destruct`          | [Garvit](@garvit.chhabra)     |
-| 25.09.2024 | Modules             | [Max](@max.kurze)             |
-| 02.10.2024 | Proof General       | Hendrik (Kernkonzept)         |
+| Date       | Topic                  | Presenter                                     |
+|------------|------------------------|-----------------------------------------------|
+| 16.10.2024 | Intro to Koika         | [Max](max.kurze) (BI)                         |
+| 30.10.2024 | Proof General (part 2) | [Hendrik](hendrik.tews) (Kernkonzept)         |
 
 
 ## Open topics
 
 | Topic                                       | Presenter                                             |
 |---------------------------------------------|-------------------------------------------------------|
+| `apply` and `exact`                         | [Lisza](@lisza.zeidler)                               |
 | `reflexivity` tactic                        |                                                       |
 | `simpl` tactic                              |                                                       |
 | `auto` tactic and hint databases            |                                                       |
@@ -66,7 +65,9 @@ To use the default template, you can leave out `#<template>` all together.
 | "Coq Ops" (nix/dune/opam)         | [Michael](@michael.raitza)    | [tutorial](./tutorials/Nix.md)        |
 | Vernacular Commands for Searching | [Lisza](@lisza.zeidler)       | [code](./code/demos/searching_info.v) |
 | Intro-patterns                    | [Lisza](@lisza.zeidler)       | [code](./code/demos/intro_patterns.v) |
+| `destruct`                        | [Garvit](@garvit.chhabra)     | issue #3+                             |
 | SSReflect Basics                  | [Sebastian](@sebastian.ertel) | [code](./code/demos/ssreflect_tour.v) |
+| Modules                           | [Max](@max.kurze)             | [code](./code/demos/modules.v).       |
 | Proof General intro               | [Hendrik](@hendriktews)       | [code](./code/demos/PG-intro)         |
 
 ## Contributing
