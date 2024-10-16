@@ -32,8 +32,8 @@ To use the default template, you can leave out `#<template>` all together.
 
 | Date       | Topic                  | Presenter                                     |
 |------------|------------------------|-----------------------------------------------|
-| 16.10.2024 | Intro to Koika         | [Max](max.kurze) (BI)                         |
-| 30.10.2024 | Proof General (part 2) | [Hendrik](hendrik.tews) (Kernkonzept)         |
+| 16.10.2024 | Intro to Koika         | [Max](@max.kurze) (BI)                         |
+| 30.10.2024 | Proof General (part 2) | [Hendrik](@hendrik.tews) (Kernkonzept)         |
 
 
 ## Open topics
