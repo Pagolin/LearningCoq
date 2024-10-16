@@ -35,7 +35,7 @@ To use the default template, you can leave out `#<template>` all together.
 | 16.10.2024 | Intro to Koika (part 1) | [Max](@max.kurze) (BI)                         |
 | 30.10.2024 | Proof General (part 2)  | [Hendrik](@hendrik.tews) (Kernkonzept)         |
 | 13.11.2024 | Intro to Koika (part 2) | [Max](@max.lurze) (BI)                         |
-| 27.11.2024 | Co-induction            | [Andreas](@aotto) (Kernkonzept)                |
+| 11.12.2024 | Co-induction            | [Andreas](@aotto) (Kernkonzept)                |
 
 
 ## Open topics
