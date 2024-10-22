@@ -5,6 +5,7 @@
 
 code/demos/intro_patterns.v
 code/demos/searching_info.v
+code/demos/ssreflect_tour.v
 
 code/helperLib/basics.v
 code/helperLib/thingsToSearch.v
