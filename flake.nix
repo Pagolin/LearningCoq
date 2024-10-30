@@ -12,8 +12,9 @@
         alias spacemacs="HOME=$(pwd) emacs"
       '';
       buildInputs = [
-       # (with pkgs.coqPackages_8_18; [coq mathcomp])
-        pkgs.coqPackages_8_18.coq
+       # (with pkgs.coqPackages_8_19; [coq mathcomp])
+        pkgs.coqPackages_8_19.coq
+        pkgs.coqPackages_8_19.vscoq-language-server
       ];
     };
   }) // {
