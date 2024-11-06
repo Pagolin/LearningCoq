@@ -1,19 +1,15 @@
 (* ------------- First things first ... What is *Induction*? ----------------------------------*)
 
-
 (* Induction is the principle of concluding a general thing (theory/hypothesis/fact) from examples.
-   Like apples, pears and melons are examples of the concept fruit.
+   Like apples, pears, and melons are examples of the concept fruit.
 
-   Inductive Datatypes are hence inductive because you define them by giving all the 
-   instances that could make up a member of that type and "conclude" the type. 
-   from the definition coq concludes (because it requries this) that
+   Inductive datatypes are hence inductive because you define them by giving all the instances that could make up a member of that type and "conclude" the type. from the definition coq concludes (because it requries this) that
       - those constructors are the only ways to build the type
       - you can build any of the recursive instances based on non-recursive instances of the
       type 
    
-   Inductive types can be recursive, but they don't have to.
-   In coq they are really types that are 'induced' by new constructors ... everything else (like Lemmata,
-   function types and definitions is giving names to specializations of generic types)
+   Inductive types can be recursive, but they do not have to.
+   In coq they are really types that are 'induced' by new constructors ... Everything else (like the lemmata,  function types and definitions is giving names to specializations of generic types)
 *)
 
 Inductive  someInductive : Type := SomeConstructor (x: nat) | OtherConstructor (b: bool).
@@ -25,12 +21,8 @@ Fixpoint justAnInstanceOfAtoB (a : nat) : someInductive :=
    | S n => justAnInstanceOfAtoB n 
    end.
 
-   
 
-(*ToDo: Why is Prop (Type, Set, SProp) not (co)inductive? -> Explain*)
-
-
-(*Let's have an inductive type that is recursive (because those are the only ones you need 
+(* Let's have an inductive type that is recursive (because those are the only ones you need 
   [induction] for when you want to proof something about them)*)
 
 Inductive exampleType : Set := 
@@ -52,11 +44,11 @@ Print exampleType_ind.
 
 
 (* What does it say? Essentially it's a function that takes 3 arguments:
-    1. a predicate P that maps elements of exampleType to a Property 
-       P: exampleType -> Prop  ... meaning it may or may not hold
-    2. a function f that gives you P (BaseE n) for all n
-       meaning you proof P holds for the Base element
-    3. a function f0 that gives you P (StepE ... ) if you give it a P innerE
+    1.  a predicate P that maps elements of exampleType to property 
+        P: exampleType -> Prop  ... meaning it may or may not hold
+    2.  a function f that gives you P (BaseE n) for all n
+        meaning you proof P holds for the base elements
+    3.  a function f0 that gives you P (StepE ... ) if you give it a P innerE
   
    and then combines f and f0 to a fixpoint (recursive) 
    function that gives you P e for any element e of exampleType
@@ -102,7 +94,7 @@ Now we can use this priciples to do "poof by induction". The general idea is
 3. You proof that, for all the non-basic i.e. recursive elements of the type, the property will hold for the new one if 
    holds for the inner/smaller/basic one. Assuming that P hold for the inner elements is the induction hypothesis.
 
-4. Since the basic elements fullfil the property, and every building step you can make preserves the property
+4. Since the basic elements fulfill the property and every building step you can make preserves the property
    the property holds for everything you can build. 
 
 So let's look at an example
@@ -114,8 +106,9 @@ Fixpoint sum_example (e: exampleType) : nat :=
  | StepE n innerE => n + sum_example innerE
  end.
 
-(*ToDo: Find a less pointless example*)
-(*Let's do an inducitve proof using the induction principle directly*)
+
+(* 
+Let's do an inductive proof using the induction principle directly*)
 Lemma sum_bigger_0 : forall e:exampleType, sum_example e >= 0.
 Proof.
     apply exampleType_ind.
@@ -129,12 +122,12 @@ Proof.
    - intro n.
      apply le_0_n.
    - intros n innerE IH.
-     (* Now we introduced the induction hypothesis by hand and are essentially 
-         at the same point as we'd been using the induction tactic*)
+     (* Now we introduced the induction hypothesis by hand and are essentially
+        at the same point as we'd been using the induction tactic *)
      apply le_0_n. 
 Qed. 
  
-
+ 
 (*------------------- The induction tactic -----------------------*)
 
 (*The [induction] tactic will do the same steps we did by hand just now
@@ -152,11 +145,11 @@ Proof.
    - apply le_0_n. 
 Qed. 
 
-(*Knowing that the induction tactic will introduce 
+(* Knowing that the induction tactic will introduce 
    - a case for all constructors of the term
    - the parameters of the respective constructors and
    - an induction hypothesis for each nested constructor
-  it is possible to name them in the call to the induction tactic using the usual intro patterns
+    it is possible to name them in the call to the induction tactic using the usual intro patterns
   e.g. exampleType has two constructors, one of them will also generate an induction hypothesis 
   so we can use a two branched disjunction pattern like this 
 *)
@@ -170,25 +163,14 @@ Proof.
 Qed. 
 
 
-(* ToDo: 
-   1. general syntax of [induction]
-   2. example for using it with different terms when there are multiple option in a proof
-   3. example for using it with different induction principles and custom properties 
-   Question: Do we really want number 3 ? I think it's not necessary in the beginning ie. to
-   generally understand how it works and might rather convey a feeling of information overload
-   without direct practical use.  
-
-*)
-
-
-(*------------------------ The induction tactic (details) -----------------------------------*)
+(*------------------------ The Coq induction tactic (details) -----------------------------------*)
 
 (*
 
-General syntax : 
+General syntax (documented at: https://coq.inria.fr/doc/V8.18.0/refman/proofs/writing-proofs/reasoning-inductives.html#coq:tacn.induction): 
 
    induction induction_clause+, induction_principle
-   -> meaning you can call th induction tactic with a comma separated list of induction clauses and an induction
+   -> meaning you can call the induction tactic with a comma separated list of induction clauses and an induction
       principle
 
    induction_clause := induction_arg as or_and_intropattern  eqn:naming_intropattern* occurrences  
@@ -217,10 +199,10 @@ Proof.
   intros e1 e2. induction e1.
 Abort.
 
-(*This is really nothing else, than using the (implicitely) given induction priciple, 
+(*This is really nothing else, than using the (implicitly) given induction principle, 
   mapping it to the constructors of your goal and generate a proof goal for each constructor + 
   induction hypotheses. 
-  That's why a third way of achieving the same this is to use the destruct tactic with an induction priciple.
+  That's why a third way of achieving the same this is to use the destruct tactic with an induction principle.
   Destruting itself would just generate subgoals for each constructor, adding the induction principle
   introduces the assumptions about the base/child cases as IH along *)
 
@@ -237,9 +219,8 @@ Abort.
 Lemma sum_nonsense : forall e1 e2 : exampleType,
   sum_example e1 = sum_example e2.
 Proof.
-  (* in fact you don't need to introduce premisses, that occure before the
-     term you do induction on. This will happen automatically, here e1 is introduced
-     because it occured before e2.
+  (* in fact you don't need to introduce premises that occur before the term you do induction on. This will happen automatically.
+  Here e1 is introduced because it occurred before e2.
    *)
   induction e2.
 Abort.
@@ -248,13 +229,13 @@ Lemma sum_nonsense : forall e1 e2 : exampleType,
   sum_example e1 = sum_example e2.
 Proof.
   (* In some cases it is helpful to have a more general induction hypothesis
-     For instance, in the previouse example you got 
+     For instance, in the previous example you got 
      IHe2 : sum_example e1 = sum_example e2 
      meaning for a specific e1 and e2 it holds that sum_example e1 = sum_example e2
      
-     Now, we always need to introduce premisses up to the term we do induction on.
+     Now, we always need to introduce premises up to the term we do induction on.
      But we can get a more general/stronger induction hypothesis by removing
-     premisses, in this case the specific e1 from the context again.
+     premises, in this case the specific e1 from the context again.
    *)
   intros e1 e2.
   revert e1.
@@ -303,7 +284,7 @@ Proof.
   (* 
     Remember that induction will generate a subgoal for each constructor of your
     term. Instead of just introducing the parameters of those constructors, you can also
-    keep the construtor itsef in scope. 
+    keep the constructor itself in scope. 
    *)
   induction e1 as [nBase | nStep innerE IHinnerE] eqn:CurrentE1.
 Abort.
@@ -319,7 +300,7 @@ Definition holdsForAll (e: exampleType) := True.
 
 
 
-(*That's the default induction principle for exampleType if we defined it ourselves*)
+(* That's the default induction principle for exampleType if we defined it ourselves  *)
 Definition customExampleType_ind_simpl :=  
    fun (P1 : exampleType -> Prop) 
    (fStep : forall (n : nat) (innerE : exampleType), P1 innerE  -> P1 (StepE n innerE) ) 
@@ -337,21 +318,61 @@ Proof.
    induction e1 using (customExampleType_ind_simpl).
 Abort.
 
-(* That compiles but even when I apply it to a P1 befor trying to use it as an induction principle
-   the compiler won't recognize it as an induction principle :-/*)
- 
-Definition customExampleType_ind :=  
-   fun (P1 P2 : exampleType -> Prop) 
-   (fbase : forall n : nat, P1 (BaseE n) /\ P2 (BaseE n))
-   (fStep : forall (n : nat) (innerE : exampleType), P1 innerE /\ P2 innerE -> P1 (StepE n innerE) /\ P2 (StepE n innerE)) 
-   =>
-   fix proofFun (anyE : exampleType) : P1 anyE /\ P2 anyE :=  
-      match anyE with 
-      | BaseE n => fbase n
-      | StepE n innerE => fStep n innerE (proofFun innerE) 
-      end.
+(*We could also make it a theorem or lemma 
+   ... this is just about the arguments it takes (a property and proofs for all constructors)
+   and the conclusion that is returned i.e. a proof for the whole type
+*)
 
- 
+Lemma customExampleType_ind_lemma:
+   forall 
+   (P : exampleType -> Prop) 
+   (fbase : forall n : nat, P (BaseE n))
+   (fStep : forall (n : nat) (innerE : exampleType), P innerE  -> P (StepE n innerE)), 
+   forall (e: exampleType), P e.
+Proof. 
+   (*Instead of an implementation, as in the Definition above, we now give a Proof.
+   In a later lecture we'll discuss why we can do that (and why it's cool)*)
+   intros P fBase fStep e.
+   (*
+      Notice that we do not need to proof that any specific P hold here, we just proof that our
+      induction principle suffices to give us a proof for all elements of exampleType
+   *)
+   induction e.
+   - apply fBase.
+   - apply fStep. apply IHe.
+Qed. 
+
+Lemma sum_nonsense : forall e1 e2: exampleType, 
+   sum_example e1 = sum_example e2.
+Proof.
+   induction e1 using (customExampleType_ind_lemma).
+Abort.
+
+
+(*Ok .. but why? 
+  Let's use it to actually write some custom induction principle.
+  Let's say you want to prove a property that works on pairs instead of single instances of exampleType
+*)
+
+
+Lemma exampleType_pair_ind :
+  forall (P : exampleType -> exampleType -> Prop),
+    (forall n m, P (BaseE n) (BaseE m)) ->
+    (forall n m e, P (BaseE n) (StepE m e)) ->
+    (forall n m e, P (StepE n e) (BaseE m)) ->
+    (forall n m e1 e2, P e1 e2 -> P (StepE n e1) (StepE m e2)) ->
+    forall e1 e2, P e1 e2.
+Proof.
+  intros P H_BaseE_BaseE H_BaseE_StepE H_StepE_BaseE H_StepE_StepE.
+  induction e1 as [n1 | n1 e1' IHe1'].
+  - destruct e2 as [n2 | n2 e2'].
+    + apply H_BaseE_BaseE.
+    + apply H_BaseE_StepE.
+  - destruct e2 as [n2 | n2 e2'].
+    + apply H_StepE_BaseE.
+    + apply H_StepE_StepE.
+      apply IHe1'.
+Qed.
 
 (*
 For further practice and reading:
