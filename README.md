@@ -33,9 +33,12 @@ To use the default template, you can leave out `#<template>` all together.
 | Date       | Topic                   | Presenter                                      |
 |------------|-------------------------|------------------------------------------------|
 | 16.10.2024 | Intro to Koika (part 1) | [Max](@max.kurze) (BI)                         |
-| 30.10.2024 | Proof General (part 2)  | [Hendrik](@hendriktews) (Kernkonzept)         |
+| 30.10.2024 | Proof General (part 2)  | [Hendrik](@hendriktews) (Kernkonzept)          |
+| 06.11.2024 | Induction               | [Lisza](@lisza.zeidler )                       |
 | 13.11.2024 | Intro to Koika (part 2) | [Max](@max.kurze) (BI)                         |
 | 11.12.2024 | Co-induction            | [Andreas](@aotto) (Kernkonzept)                |
+| ???        | Notations               | [Max](@max.kurze)                              |
+| ???        | Inversion               | [Lisza](@lisza.zeidler )                       |
 
 
 ## Open topics
