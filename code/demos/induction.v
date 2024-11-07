@@ -1,26 +1,33 @@
 (* ------------- First things first ... What is *Induction*? ----------------------------------*)
 
-(* Induction is the principle of concluding a general thing (theory/hypothesis/fact) from examples.
-   Like apples, pears, and melons are examples of the concept fruit.
-
-   Inductive datatypes are hence inductive because you define them by giving all the instances that could make up a member of that type and "conclude" the type. from the definition coq concludes (because it requries this) that
-      - those constructors are the only ways to build the type
-      - you can build any of the recursive instances based on non-recursive instances of the
-      type 
+(* 
+   Why is it called induction or inductive data type. 
    
-   Inductive types can be recursive, but they do not have to.
-   In coq they are really types that are 'induced' by new constructors ... Everything else (like the lemmata,  function types and definitions is giving names to specializations of generic types)
+   It's called inductive data type, because you can use the mathematical principle of induction both to build them and to reason about 
+   them. 
+
+   One way to define a data type is to list all variants, or kinds of instances that type can have, i.e. list all constructors. 
+   Many languages call those data types enums. However, try to imagine you want to build a data type for lists or natural numbers. You'd have
+   to give a constructor for all (infinitely many) instances. 
+   So instead of listing them all, you can use the fact that numbers can be build from numbers and lists can be build from list, by giving an inducitive
+   definition of those types:
+   a) give the base cases that form instances of the type out of other types or just thin air e.g. 0 for numbers or [] for lists
+   b) give all the rules how to build bigger instances from smaller ones e.g. take the successor S n or prepend to a list n :: L
+
+   Note: Types that have no recursive cases and types that have no base are special cases of inductive types. 
+         If a type has no base cases, induction is just a pattern match on base cases.
+         If a type has only recursive cases, you can never actually build an instance, so it's more or less a fancy 
+         way to encode False in Coq.    
 *)
 
-Inductive  someInductive : Type := SomeConstructor (x: nat) | OtherConstructor (b: bool).
+(* Example for only base cases: *)
+Inductive someInductive : Type := SomeConstructor (x: nat) | OtherConstructor (b: bool).
 
-Definition justAnInstanceOfListA := list nat. 
-Fixpoint justAnInstanceOfAtoB (a : nat) : someInductive := 
-   match a with 
-   | 0 => SomeConstructor a 
-   | S n => justAnInstanceOfAtoB n 
-   end.
-
+(* Example for only recursive cases: *)
+Inductive endlessSpiral : Type := 
+  | LeftTurn (innerSpiral : endlessSpiral)
+  | RightTurn (innerSpiral : endlessSpiral)
+.
 
 (* Let's have an inductive type that is recursive (because those are the only ones you need 
   [induction] for when you want to proof something about them)*)
@@ -138,12 +145,11 @@ Qed.
    - for recursive constructors also introduce the induction hypothesis 
 *)
 
-Lemma sum_bigger_0' : forall e:exampleType, sum_example e >= 0.
+Lemma sum_nonsense : forall e1 e2 : exampleType,
+  sum_example e1 = sum_example e2.
 Proof.
-   induction e.
-   - apply le_0_n.
-   - apply le_0_n. 
-Qed. 
+   induction e1.
+Abort.
 
 (* Knowing that the induction tactic will introduce 
    - a case for all constructors of the term
@@ -155,12 +161,11 @@ Qed.
 *)
 
 
-Lemma sum_bigger_0'' : forall e: exampleType, sum_example e >= 0.
+Lemma sum_nonsense : forall e1 e2 : exampleType,
+  sum_example e1 = sum_example e2.
 Proof.
-   induction e as [ nBase | nStep innerE IHinnerE ].
-   - apply le_0_n.
-   - apply le_0_n. 
-Qed. 
+   induction e1 as [ nBase | nStep innerE IHinnerE ].
+Abort.
 
 
 (*------------------------ The Coq induction tactic (details) -----------------------------------*)
@@ -242,15 +247,43 @@ Proof.
   induction e2.
 Abort.
 
+(* Why would you want a stronger IH? Let's look at an example. 
+*)
+
+
+Fixpoint add1 (a b : nat) : nat :=
+ match a with 
+ | 0 => b
+ | S a' => add1 a' (S b)
+ end.
+
+Lemma add1_S_r: forall n m, add1 n (S m) = S (add1 n m).
+Proof.
+  intros n m.
+  induction n.
+  - intros. reflexivity.
+  - intros. simpl. rewrite IHn. (*We're stuck, because IHn talks about one specific m*)
+Abort.
+
+Lemma add1_S_r: forall n m, add1 n (S m) = S (add1 n m).
+Proof.
+  (* Don't introduce m here *)
+  intros n.
+  induction n.
+  - intros. reflexivity.
+  - intros. simpl. 
+    (*The generalized IHn will match on the left hand side, giving us a far more
+      useful rewrite.*)
+    rewrite IHn. reflexivity.
+Qed.
 
 Lemma sum_nonsense : forall e1 e2 : exampleType,
   sum_example e1 = sum_example e2.
 Proof.
   (* 
-     If you need/want to do induction on more than one term 
-     you can list them this way. 
-     The induction principle will be the same for all of them 
-     and you will get a nested induction.
+     The syntax of induction allows you to list terms. However, only the first term will
+     be destructed with the induction principle. The following terms, e2 here are just destructed. 
+     Check: There is no induction hypothesis on e2 in the last subgoal 
    *)
   induction e1, e2.
 Abort.
@@ -259,8 +292,7 @@ Lemma sum_nonsense : forall e1 e2 : exampleType,
   sum_example e1 = sum_example e2.
 Proof.
   (* 
-     This is equivalent to the version above, i.e. you do the nested 
-     induction by hand.
+     This is actual nested induction i.e. you will get two induction hypothesis in the last subgoal.
    *)
   induction e1.
   - induction e2. admit. admit.
@@ -268,15 +300,6 @@ Proof.
 Abort.
 
 
-
-Lemma sum_nonsense : forall e1 e2 : exampleType,
-  sum_example e1 = sum_example e2.
-Proof.
-  (* 
-    Obviously, things become more readable, when you name the introduced hypothesis'.
-   *)
-  induction e1 as [nBase | nStep innerE IHinnerE].
-Abort.
 
 Lemma sum_nonsense : forall e1 e2 : exampleType,
   sum_example e1 = sum_example e2.
@@ -296,15 +319,12 @@ Proof.
    induction e1 using exampleType_ind.
 Abort. 
 
-Definition holdsForAll (e: exampleType) := True. 
-
-
 
 (* That's the default induction principle for exampleType if we defined it ourselves  *)
 Definition customExampleType_ind_simpl :=  
    fun (P1 : exampleType -> Prop) 
+   (fbase : forall (n :nat) )
    (fStep : forall (n : nat) (innerE : exampleType), P1 innerE  -> P1 (StepE n innerE) ) 
-   (fbase : forall n : nat, P1 (BaseE n))
    =>
    fix proofFun (anyE : exampleType) : P1 anyE :=  
       match anyE with 
