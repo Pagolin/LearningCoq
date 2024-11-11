@@ -322,8 +322,8 @@ Abort.
 
 (* That's the default induction principle for exampleType if we defined it ourselves  *)
 Definition customExampleType_ind_simpl :=  
-   fun (P1 : exampleType -> Prop) 
-   (fbase : forall (n :nat) )
+   fun (P1 : exampleType -> Prop)
+   (fbase : forall (n :nat), P1 (BaseE n))
    (fStep : forall (n : nat) (innerE : exampleType), P1 innerE  -> P1 (StepE n innerE) ) 
    =>
    fix proofFun (anyE : exampleType) : P1 anyE :=  
