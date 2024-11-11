@@ -32,9 +32,7 @@ To use the default template, you can leave out `#<template>` all together.
 
 | Date       | Topic                   | Presenter                                      |
 |------------|-------------------------|------------------------------------------------|
-| 16.10.2024 | Intro to Koika (part 1) | [Max](@max.kurze) (BI)                         |
 | 30.10.2024 | Proof General (part 2)  | [Hendrik](@hendriktews) (Kernkonzept)          |
-| 06.11.2024 | Induction               | [Lisza](@lisza.zeidler )                       |
 | 13.11.2024 | Intro to Koika (part 2) | [Max](@max.kurze) (BI)                         |
 | 11.12.2024 | Co-induction            | [Andreas](@aotto) (Kernkonzept)                |
 | ???        | Notations               | [Max](@max.kurze)                              |
@@ -74,6 +72,8 @@ To use the default template, you can leave out `#<template>` all together.
 | SSReflect Basics                  | [Sebastian](@sebastian.ertel) | [code](./code/demos/ssreflect_tour.v) |
 | Modules                           | [Max](@max.kurze)             | [code](./code/demos/modules.v).       |
 | Proof General intro               | [Hendrik](@hendriktews)       | [code](./code/demos/PG-intro)         |
+| Intro to Koika (part 1)           | [Max](@max.kurze) (BI)        |   ???                                 |
+| Induction                         | [Lisza](@lisza.zeidler)       | [code](./code/demos/induction.v)      |
 
 ## Contributing
 
